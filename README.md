@@ -1,1 +1,1 @@
-# letter_capsule
+npx prisma migrate dev --name init
