@@ -10,8 +10,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model User {
-//   id Int @id @default(autoincrement())
-//   email String @unique
-//   name String?
-// }
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  email     String   @unique
+  name      String?
+  role      Role     @default(USER)
+  letter    Letter[]
+}
+
+model Letter {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  published    Boolean  @default(false)
+  title        String   @db.VarChar(255)
+  content      String   @db.Text
+  authorId     Int
+  author       User    @relation(fields: [authorId], references: [id])
+  deliveryDate DateTime
+}
