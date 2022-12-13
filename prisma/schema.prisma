@@ -19,9 +19,10 @@ model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   email     String   @unique
-  name      String?
+  name      String
   role      Role     @default(USER)
   letter    Letter[]
+  active    Boolean @default(false)
 }
 
 model Letter {
@@ -32,6 +33,6 @@ model Letter {
   title        String   @db.VarChar(255)
   content      String   @db.Text
   authorId     Int
-  author       User    @relation(fields: [authorId], references: [id])
+  author       User     @relation(fields: [authorId], references: [id])
   deliveryDate DateTime
 }
