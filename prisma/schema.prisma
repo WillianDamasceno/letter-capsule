@@ -19,10 +19,11 @@ model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   email     String   @unique
+  password  String
   name      String
   role      Role     @default(USER)
   letter    Letter[]
-  active    Boolean @default(false)
+  active    Boolean  @default(false)
 }
 
 model Letter {
