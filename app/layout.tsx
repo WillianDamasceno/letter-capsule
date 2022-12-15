@@ -1,27 +1,12 @@
-import "../styles/globals.css";
+import "../styles/globals.css"
 
-// import { PrismaClient } from "@prisma/client";
-
-// const prisma = new PrismaClient();
-
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  // await prisma.user.create({
-  //   data: {
-  //     name: 'Alice',
-  //     email: `alice${String(Math.random()).slice(3, 8)}@prisma.io`
-  //   },
-  // })
-  // const allUsers = await prisma.user.findMany();
-  // console.dir(allUsers, { depth: null })
-
+const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
-      <head />
+      <head></head>
       <body>{children}</body>
     </html>
-  );
+  )
 }
+
+export default RootLayout
