@@ -5,7 +5,6 @@ import { PrismaClient } from "@prisma/client"
 import type { ApiResponse } from "../../utilities/api"
 
 import { apiActions } from "../../utilities/api"
-import { to } from "../../utilities/helpers"
 
 const prisma = new PrismaClient()
 
@@ -14,30 +13,31 @@ const handler = async (
   res: NextApiResponse<ApiResponse>
 ) => {
   const { setError, errors } = apiActions(res)
-  const { name, email, password } = JSON.parse(req.body)
+  const { email, password } = JSON.parse(req.body)
 
-  if (!(name && email && password)) {
+  if (!(email && password)) {
     errors.push({ message: "Every field should be filled" })
     return setError({ errors })
   }
 
-  const [error] = await to(
-    prisma.user.create({
-      data: {
-        name,
-        email,
-        password
-      },
-    })
-  )
+  const user = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  })
 
-  if (error) {
-    if (error?.meta?.target.includes("email")) {
-      errors.push({ message: "This e-mail is already registered" })
-      return setError({ errors })
-    }
+  // if (error) {
+  //   if (error?.meta?.target.includes("email")) {
+  //     errors.push({ message: "This e-mail is already registered" })
+  //     return setError({ errors })
+  //   }
 
-    errors.push({ message: "Server error" })
+  //   errors.push({ message: "Server error" })
+  //   return setError({ errors })
+  // }
+
+  if (!user || user.password !== password) {
+    errors.push({ message: "The e-mail or the password is wrong!" })
     return setError({ errors })
   }
 
@@ -45,7 +45,7 @@ const handler = async (
     return setError({ errors })
   }
 
-  return res.redirect(307, "/email-receipt-confirmation")
+  res.redirect(301, "/composer")
 }
 
 export default handler
