@@ -22,9 +22,8 @@ const handleSubmit = async (e: React.SyntheticEvent, router: AppRouterInstance) 
   }
   
   const [errors, res] = await to(
-    fetch("/api/signUp", {
+    fetch("/api/sign-up", {
       method: "POST",
-      redirect: "follow",
       body: JSON.stringify({
         name: name.value,
         email: email.value,
@@ -43,7 +42,7 @@ const handleSubmit = async (e: React.SyntheticEvent, router: AppRouterInstance) 
     return router.push(response.url)
   }
 
-  console.log("Something went wrong")
+  console.log({message: "Something went wrong", response})
 }
 
 const Form = () => {
