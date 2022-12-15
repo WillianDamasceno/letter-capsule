@@ -4,7 +4,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "studio": "npx prisma studio"
+    "studio": "npx prisma studio",
+    "migrate:dev": "npx prisma migrate dev"
   },
   "dependencies": {
     "@prisma/client": "^4.6.1",
