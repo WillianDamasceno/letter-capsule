@@ -23,14 +23,14 @@ model User {
   name      String
   role      Role     @default(USER)
   letter    Letter[]
-  active    Boolean  @default(false)
+  verified  Boolean  @default(false)
 }
 
 model Letter {
   id           Int      @id @default(autoincrement())
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  published    Boolean  @default(false)
+  draft        Boolean  @default(true)
   title        String   @db.VarChar(255)
   content      String   @db.Text
   authorId     Int
