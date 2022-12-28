@@ -3,8 +3,8 @@
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context"
 import { useRouter } from "next/navigation"
 import { useRef } from "react"
+import { toJson } from "../../../utilities/helpers"
 
-import { to } from "../../../utilities/helpers"
 
 const handleSubmit = async (e: React.SyntheticEvent, router: AppRouterInstance) => {
   e.preventDefault()
@@ -21,7 +21,7 @@ const handleSubmit = async (e: React.SyntheticEvent, router: AppRouterInstance) 
     return console.log("Fill every field")
   }
   
-  const [errors, res] = await to(
+  const [errors, res] = await toJson(
     fetch("/api/sign-up", {
       method: "POST",
       body: JSON.stringify({
@@ -42,7 +42,7 @@ const handleSubmit = async (e: React.SyntheticEvent, router: AppRouterInstance) 
     return router.push(response.url)
   }
 
-  console.log({message: "Something went wrong", response})
+  console.log({response})
 }
 
 const Form = () => {

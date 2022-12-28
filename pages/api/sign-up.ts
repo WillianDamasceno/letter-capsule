@@ -1,11 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-
 import { PrismaClient } from "@prisma/client"
-
 import type { ApiResponse } from "../../utilities/api"
-
 import { apiActions } from "../../utilities/api"
-import { to } from "../../utilities/helpers"
 
 const prisma = new PrismaClient()
 
@@ -21,25 +17,26 @@ const handler = async (
     return setError({ errors })
   }
 
-  const [error] = await to(
-    prisma.user.create({
-      data: {
-        name,
-        email,
-        password
-      },
-    })
-  )
+  const isExistentUser = Boolean(await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  }))
 
-  if (error) {
-    if (error?.meta?.target.includes("email")) {
-      errors.push({ message: "This e-mail is already registered" })
-      return setError({ errors })
-    }
-
-    errors.push({ message: "Server error" })
+  if (isExistentUser) {
+    errors.push({ message: "This e-mail is already registered" })
     return setError({ errors })
   }
+
+  const user = await prisma.user.create({
+    data: {
+      name,
+      email,
+      password,
+    },
+  })
+
+  console.log({user})
 
   if (errors.length) {
     return setError({ errors })

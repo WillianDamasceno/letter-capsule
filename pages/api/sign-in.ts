@@ -26,16 +26,6 @@ const handler = async (
     },
   })
 
-  // if (error) {
-  //   if (error?.meta?.target.includes("email")) {
-  //     errors.push({ message: "This e-mail is already registered" })
-  //     return setError({ errors })
-  //   }
-
-  //   errors.push({ message: "Server error" })
-  //   return setError({ errors })
-  // }
-
   if (!user || user.password !== password) {
     errors.push({ message: "The e-mail or the password is wrong!" })
     return setError({ errors })
