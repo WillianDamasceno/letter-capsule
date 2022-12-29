@@ -3,7 +3,7 @@ import { SendMailOptions } from "nodemailer"
 import { mailTransporters } from "../../utilities/mail"
 import { apiActions, ApiResponse } from "../../utilities/api"
 
-const handler = (req: NextApiRequest, res: NextApiResponse<ApiResponse>) => {
+export default (req: NextApiRequest, res: NextApiResponse<ApiResponse>) => {
   const { setError, errors } = apiActions(res)
 
   if (req.method !== "POST") {
@@ -53,5 +53,3 @@ const handler = (req: NextApiRequest, res: NextApiResponse<ApiResponse>) => {
 
   res.status(200).json({ success: true })
 }
-
-export default handler

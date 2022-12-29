@@ -4,7 +4,7 @@ import { apiActions, ApiResponse } from "../../utilities/api"
 
 const prisma = new PrismaClient()
 
-const handler = async (
+export default async (
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse>
 ) => {
@@ -42,6 +42,4 @@ const handler = async (
   }
 
   return res.redirect(307, "/email-receipt-confirmation")
-}
-
-export default handler
+} 

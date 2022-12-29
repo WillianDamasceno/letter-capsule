@@ -1,7 +1,6 @@
-import { NextPage } from "next"
 import Form from "./Form"
 
-const page: NextPage = () => {
+const page = () => {
   return (
     <main className="grid h-screen place-items-center">
       <Form />

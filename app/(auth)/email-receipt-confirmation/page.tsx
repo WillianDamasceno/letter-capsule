@@ -1,7 +1,6 @@
-import type { NextPage } from "next"
 import Link from "next/link"
 
-const Page: NextPage = () => {
+const Page = () => {
   return (
     <main className="flex h-screen flex-col items-center justify-center gap-4">
       <h1 className="text-5xl">Thank you for registering</h1>

@@ -16,11 +16,6 @@ const page = async ({ params }: any) => {
 
   const isVerified = user?.verified
 
-  console.log({
-    user,
-    isVerified, 
-  })
-
   return (
     <main>
       {isVerified ? (

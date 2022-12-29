@@ -5,7 +5,7 @@ import { apiActions, ApiResponse } from "../../utilities/api"
 
 const prisma = new PrismaClient()
 
-const handler = async (
+export default async (
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse>
 ) => {
@@ -32,7 +32,5 @@ const handler = async (
     return setError({ errors })
   }
 
-  res.redirect(301, "/composer")
+  res.redirect(301, "/dashboard/letters")
 }
-
-export default handler

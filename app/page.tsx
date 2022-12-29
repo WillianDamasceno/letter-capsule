@@ -1,7 +1,6 @@
-import type { NextPage } from "next"
 import Link from "next/link"
 
-const Home: NextPage = () => {
+const Page = () => {
   return (
     <main className="flex h-screen flex-col items-center justify-center gap-6">
       <h1 className="text-6xl italic text-rose-600 underline">
@@ -26,4 +25,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Page
