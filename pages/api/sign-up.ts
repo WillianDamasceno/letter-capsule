@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 import { PrismaClient } from "@prisma/client"
-import type { ApiResponse } from "../../utilities/api"
-import { apiActions } from "../../utilities/api"
+import { apiActions, ApiResponse } from "../../utilities/api"
 
 const prisma = new PrismaClient()
 

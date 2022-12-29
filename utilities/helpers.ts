@@ -3,7 +3,8 @@ export const to = async (promise: Promise<any>) => {
 }
 
 export const toJson = async (promise: Promise<any>) => {
-  const [error, response] = await to(promise)
+  const [error, res] = await to(promise)
+  const response = Boolean(res) && (await res?.json())
 
-  return [error, await response.json()]
+  return [error, response]
 }

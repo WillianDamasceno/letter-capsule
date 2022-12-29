@@ -1,10 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 
 import { PrismaClient } from "@prisma/client"
-
-import type { ApiResponse } from "../../utilities/api"
-
-import { apiActions } from "../../utilities/api"
+import { apiActions, ApiResponse } from "../../utilities/api"
 
 const prisma = new PrismaClient()
 
@@ -26,7 +23,7 @@ const handler = async (
     },
   })
 
-  if (!user || user.password !== password) {
+  if (!user || !user.verified || user.password !== password) {
     errors.push({ message: "The e-mail or the password is wrong!" })
     return setError({ errors })
   }

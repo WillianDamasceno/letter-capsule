@@ -3,10 +3,22 @@
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context"
 import { useRouter } from "next/navigation"
 import { useRef } from "react"
-import { toJson } from "../../../utilities/helpers"
+import { to, toJson } from "../../../utilities/helpers"
 
+const sendConfirmationEmail = async (name: string, email: string) => {
+  return await toJson(fetch("/api/send-email-receipt-confirmation", {
+    method: "POST",
+    body: JSON.stringify({
+      name,
+      email
+    })
+  }))
+}
 
-const handleSubmit = async (e: React.SyntheticEvent, router: AppRouterInstance) => {
+const handleSubmit = async (
+  e: React.SyntheticEvent,
+  router: AppRouterInstance
+) => {
   e.preventDefault()
 
   const target = e.target as typeof e.target & {
@@ -20,8 +32,8 @@ const handleSubmit = async (e: React.SyntheticEvent, router: AppRouterInstance) 
   if (!(name.value && email.value && password.value)) {
     return console.log("Fill every field")
   }
-  
-  const [errors, res] = await toJson(
+
+  const [errors, response] = await to(
     fetch("/api/sign-up", {
       method: "POST",
       body: JSON.stringify({
@@ -33,16 +45,13 @@ const handleSubmit = async (e: React.SyntheticEvent, router: AppRouterInstance) 
   )
 
   if (errors) {
-    return console.log(errors)
+    return console.log({errors})
   }
   
-  const response = await res
-
   if (response.redirected) {
+    console.log(await sendConfirmationEmail(name.value, email.value))
     return router.push(response.url)
   }
-
-  console.log({response})
 }
 
 const Form = () => {

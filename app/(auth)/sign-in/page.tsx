@@ -1,7 +1,12 @@
+import { NextPage } from "next"
 import Form from "./Form"
 
-export default function page() {
-  return <main className="grid h-screen place-items-center">
-    <Form />
-  </main>
+const page: NextPage = () => {
+  return (
+    <main className="grid h-screen place-items-center">
+      <Form />
+    </main>
+  )
 }
+
+export default page
