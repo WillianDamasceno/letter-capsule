@@ -1,5 +1,6 @@
+import jwt from "jsonwebtoken"
 import { serialize } from "cookie"
-import { randomUUID } from "crypto"
+
 import { toJson } from "./helpers"
 
 export const isSignedIn = async () => {
@@ -16,15 +17,24 @@ export const isSignedIn = async () => {
   return response
 }
 
-export const createSignInCookie = () => {
-  const signInToken = randomUUID()
+export const createSignInCookie = (userId: number, userEmail: string) => {
+  const maxAge = 60 * 60
+
+  const signInToken = jwt.sign(
+    { userId, userEmail },
+    String(process.env.JWT_PRIVATE_KEY),
+    {
+      expiresIn: maxAge,
+    }
+  )
+
   const signInCookie = serialize(
     String(process.env.SIGN_IN_TOKEN_HEADER_KEY),
     signInToken,
     {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
-      maxAge: 60 * 60,
+      maxAge,
       sameSite: "strict",
       path: "/",
     }

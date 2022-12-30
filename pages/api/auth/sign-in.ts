@@ -13,6 +13,11 @@ export default async (
   const { setError, errors } = apiActions(res)
   const { email, password } = JSON.parse(req.body)
 
+  if (req.method !== "POST") {
+    errors.push({ message: "This route just accepts POST requests" })
+    return setError({ code: 405, errors })
+  }
+
   if (!(email && password)) {
     errors.push({ message: "Every field should be filled" })
     return setError({ errors })
@@ -33,7 +38,7 @@ export default async (
     return setError({ errors })
   }
 
-  const signInCookie = createSignInCookie()
+  const signInCookie = createSignInCookie(user.id, user.email)
 
   res.setHeader("Set-Cookie", signInCookie)
   res.redirect(301, "/dashboard/letters")
