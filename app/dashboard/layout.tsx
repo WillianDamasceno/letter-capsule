@@ -1,14 +1,14 @@
-import { SignOutButton } from "./SignOutButton"
+import { Menu } from "./Menu"
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main>
-      <section>
-        <SignOutButton />
-      </section>
+    <div className="flex flex-col md:flex-row min-h-screen grid-cols-4 bg-slate-400">
+      <header className="w-full md:w-1/4 min-w-fit md:max-w-xs bg-zinc-800">
+        <Menu />
+      </header>
 
-      {children}
-    </main>
+      <main className="w-full">{children}</main>
+    </div>
   )
 }
 

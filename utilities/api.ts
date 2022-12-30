@@ -30,17 +30,15 @@ export const apiActions = (res: NextApiResponse<ApiResponse>) => {
     })
   }
 
-  const setSuccess = (
-    {
-      code = 200,
-      message,
-      data,
-    }: {
-      code?: number
-      message?: string
-      data?: object[]
-    }
-  ) => {
+  const setSuccess = ({
+    code = 200,
+    message,
+    data,
+  }: {
+    code?: number
+    message?: string
+    data?: object[]
+  }) => {
     if (errors.length) {
       setError({ errors })
     }
@@ -54,5 +52,5 @@ export const apiActions = (res: NextApiResponse<ApiResponse>) => {
     })
   }
 
-  return {setSuccess, setError, errors}
+  return { setSuccess, setError, errors }
 }
