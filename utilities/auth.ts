@@ -4,7 +4,7 @@ import { toJson } from "./helpers"
 
 export const isSignedIn = async () => {
   const [error, response] = await toJson(
-    fetch("/api/verify-auth", {
+    fetch("/api/auth/verify-auth", {
       method: "POST",
     })
   )

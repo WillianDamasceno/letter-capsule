@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { SendMailOptions } from "nodemailer"
-import { mailTransporters } from "../../utilities/mail"
-import { apiActions, ApiResponse } from "../../utilities/api"
+
+import { mailTransporters } from "../../../utilities/mail"
+import { apiActions, ApiResponse } from "../../../utilities/api"
 
 export default (req: NextApiRequest, res: NextApiResponse<ApiResponse>) => {
   const { setError, errors } = apiActions(res)

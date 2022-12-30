@@ -7,7 +7,7 @@ import { isSignedIn } from "../../utilities/auth"
 import { to } from "../../utilities/helpers"
 
 const handleSignOut = async (router: AppRouterInstance) => {
-  const [error, response] = await to(fetch("/api/sign-out", { method: "POST" }))
+  const [error, response] = await to(fetch("/api/auth/sign-out", { method: "POST" }))
 
   if (error) {
     return console.log({ error })

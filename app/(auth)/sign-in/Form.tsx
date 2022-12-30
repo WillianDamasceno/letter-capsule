@@ -21,7 +21,7 @@ const handleSubmit = async (e: React.SyntheticEvent, router: AppRouterInstance) 
   }
   
   const [errors, res] = await to(
-    fetch("/api/sign-in", {
+    fetch("/api/auth/sign-in", {
       method: "POST",
       body: JSON.stringify({
         email: email.value,

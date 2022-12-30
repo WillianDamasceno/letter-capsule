@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { apiActions } from "../../utilities/api"
+import { apiActions } from "../../../utilities/api"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { setSuccess } = apiActions(res)

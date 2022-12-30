@@ -6,7 +6,7 @@ import { useRef } from "react"
 import { to, toJson } from "../../../utilities/helpers"
 
 const sendConfirmationEmail = async (name: string, email: string) => {
-  return await toJson(fetch("/api/send-email-receipt-confirmation", {
+  return await toJson(fetch("/api/auth/send-email-receipt-confirmation", {
     method: "POST",
     body: JSON.stringify({
       name,
@@ -34,7 +34,7 @@ const handleSubmit = async (
   }
 
   const [errors, response] = await to(
-    fetch("/api/sign-up", {
+    fetch("/api/auth/sign-up", {
       method: "POST",
       body: JSON.stringify({
         name: name.value,

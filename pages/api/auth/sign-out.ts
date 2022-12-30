@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 
-import { createExpiredSignInCookie } from '../../utilities/auth';
-import { apiActions, ApiResponse } from "../../utilities/api"
+import { createExpiredSignInCookie } from '../../../utilities/auth';
+import { apiActions, ApiResponse } from "../../../utilities/api"
 
 export default async (
   req: NextApiRequest,
