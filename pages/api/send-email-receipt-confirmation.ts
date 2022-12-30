@@ -43,8 +43,6 @@ export default (req: NextApiRequest, res: NextApiResponse<ApiResponse>) => {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log("================================")
-
       console.log({ error })
     } else {
       console.log("Email sent: " + info.response)

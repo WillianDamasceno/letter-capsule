@@ -49,7 +49,7 @@ const handleSubmit = async (
   }
   
   if (response.redirected) {
-    console.log(await sendConfirmationEmail(name.value, email.value))
+    await sendConfirmationEmail(name.value, email.value)
     return router.push(response.url)
   }
 }

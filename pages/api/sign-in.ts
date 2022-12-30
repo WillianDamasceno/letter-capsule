@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-
 import { PrismaClient } from "@prisma/client"
+
+import { createSignInCookie } from '../../utilities/auth';
+
 import { apiActions, ApiResponse } from "../../utilities/api"
 
 const prisma = new PrismaClient()
@@ -32,5 +34,8 @@ export default async (
     return setError({ errors })
   }
 
+  const signInCookie = createSignInCookie()
+
+  res.setHeader("Set-Cookie", signInCookie)
   res.redirect(301, "/dashboard/letters")
 }

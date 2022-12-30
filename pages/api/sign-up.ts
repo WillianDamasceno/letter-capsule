@@ -11,6 +11,11 @@ export default async (
   const { setError, errors } = apiActions(res)
   const { name, email, password } = JSON.parse(req.body)
 
+  if (req.method !== "POST") {
+    errors.push({ message: "This route just accepts POST requests" })
+    return setError({ code: 405, errors })
+  }
+
   if (!(name && email && password)) {
     errors.push({ message: "Every field should be filled" })
     return setError({ errors })
@@ -34,8 +39,6 @@ export default async (
       password,
     },
   })
-
-  console.log({user})
 
   if (errors.length) {
     return setError({ errors })

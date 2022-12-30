@@ -39,8 +39,7 @@ export const apiActions = (res: NextApiResponse<ApiResponse>) => {
       code?: number
       message?: string
       data?: object[]
-    },
-    errors: ApiError[]
+    }
   ) => {
     if (errors.length) {
       setError({ errors })
