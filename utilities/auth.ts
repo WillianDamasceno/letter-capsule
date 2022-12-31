@@ -1,27 +1,36 @@
+import { NextApiRequest } from "next"
+import { User } from "@prisma/client"
 import jwt from "jsonwebtoken"
 import { serialize } from "cookie"
 
 import { toJson } from "./helpers"
 
-export const isSignedIn = async () => {
-  const [error, response] = await toJson(
-    fetch("/api/auth/verify-auth", {
-      method: "POST",
-    })
-  )
+export const isSignedIn = async (callback?: (isSignedIn: boolean) => any) => {
+  const [error, data] = await toJson(fetch("/api/auth/verify-auth"))
 
   if (error) {
-    return console.log({ error })
+    return console.error({ isSignInError: error })
   }
 
-  return response
+  const status = data?.response?.data?.isSignedIn
+
+  return callback ? callback(status) : status
 }
 
-export const createSignInCookie = (userId: number, userEmail: string) => {
+type UserSignInCookieInfo = {
+  userId: number
+  userEmail: string
+}
+
+export const createSignInCookie = (user: User) => {
   const maxAge = 60 * 60
+  const cookieInfo: UserSignInCookieInfo = {
+    userId: user.id,
+    userEmail: user.email,
+  }
 
   const signInToken = jwt.sign(
-    { userId, userEmail },
+    cookieInfo,
     String(process.env.JWT_PRIVATE_KEY),
     {
       expiresIn: maxAge,
@@ -41,6 +50,26 @@ export const createSignInCookie = (userId: number, userEmail: string) => {
   )
 
   return signInCookie
+}
+
+export const getSignInCookieInfo = (req: NextApiRequest) => {
+  const signInToken = req.cookies[String(process.env.SIGN_IN_TOKEN_HEADER_KEY)]
+
+  if (typeof signInToken !== "string") {
+    return null
+  }
+
+  const decodedInfo = jwt.decode(signInToken, { complete: true, json: true })
+
+  if (!decodedInfo) {
+    return
+  }
+
+  const info = Object.assign(decodedInfo, {
+    payload: decodedInfo.payload as UserSignInCookieInfo,
+  })
+
+  return info
 }
 
 export const createExpiredSignInCookie = () => {

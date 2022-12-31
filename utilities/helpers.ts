@@ -1,10 +1,12 @@
 export const to = async (promise: Promise<any>) => {
-  return promise.then((res) => [null, res]).catch((e) => [e, null])
+  return promise
+    .then((response) => [null, response])
+    .catch((error) => [error, null])
 }
 
 export const toJson = async (promise: Promise<any>) => {
-  const [error, res] = await to(promise)
-  const response = Boolean(res) && (await res?.json())
+  const [error, response] = await to(promise)
+  const data = !error && Boolean(response) ? await response?.json() : null
 
-  return [error, response]
+  return [error, data, response]
 }
