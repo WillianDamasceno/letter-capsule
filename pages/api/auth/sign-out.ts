@@ -9,8 +9,8 @@ export default async (
 ) => {
   const { setError, errors } = apiActions(res)
 
-  if (req.method !== "POST") {
-    errors.push({ message: "This route just accepts POST requests" })
+  if (req.method !== "GET") {
+    errors.push({ message: "This route just accepts GET requests" })
     return setError({ code: 405, errors })
   }
 

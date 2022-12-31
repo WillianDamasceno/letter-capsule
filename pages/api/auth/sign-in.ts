@@ -38,7 +38,7 @@ export default async (
     return setError({ errors })
   }
 
-  const signInCookie = createSignInCookie(user.id, user.email)
+  const signInCookie = createSignInCookie(user)
 
   res.setHeader("Set-Cookie", signInCookie)
   res.redirect(301, "/dashboard/letters")

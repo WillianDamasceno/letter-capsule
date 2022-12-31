@@ -1,5 +1,11 @@
+import { LetterList } from "./LetterList"
+
 const Page = () => {
-  return <section>Letters</section>
+  return (
+    <section className="p-8 text-gray-300">
+      <LetterList />
+    </section>
+  )
 }
 
 export default Page

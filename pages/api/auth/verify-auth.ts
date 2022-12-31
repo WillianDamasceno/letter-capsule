@@ -7,22 +7,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const signInCookie = req.cookies[String(process.env.SIGN_IN_TOKEN_HEADER_KEY)]
 
   if (signInCookie) {
-    return setSuccess({
-      message: "User is signed in",
-      data: [
-        {
-          isSignedIn: true,
-        },
-      ],
-    })
+    return setSuccess({ data: { isSignedIn: true } })
   }
 
-  return setSuccess({
-    message: "User is not signed in",
-    data: [
-      {
-        isSignedIn: false,
-      },
-    ],
-  })
+  return setSuccess({ data: { isSignedIn: false } })
 }

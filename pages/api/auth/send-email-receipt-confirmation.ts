@@ -5,7 +5,7 @@ import { mailTransporters } from "../../../utilities/mail"
 import { apiActions, ApiResponse } from "../../../utilities/api"
 
 export default (req: NextApiRequest, res: NextApiResponse<ApiResponse>) => {
-  const { setError, errors } = apiActions(res)
+  const { setError, errors, setSuccess } = apiActions(res)
 
   if (req.method !== "POST") {
     errors.push({ message: "This route just accepts POST requests" })
@@ -50,5 +50,5 @@ export default (req: NextApiRequest, res: NextApiResponse<ApiResponse>) => {
     }
   })
 
-  res.status(200).json({ success: true })
+  return setSuccess({})
 }

@@ -9,7 +9,7 @@ export type ApiResponse = {
   success: boolean
   response?: {
     message?: string
-    data?: object[]
+    data?: object | object[]
   }
   errors?: ApiError[]
 }
@@ -37,7 +37,7 @@ export const apiActions = (res: NextApiResponse<ApiResponse>) => {
   }: {
     code?: number
     message?: string
-    data?: object[]
+    data?: object | object[]
   }) => {
     if (errors.length) {
       setError({ errors })

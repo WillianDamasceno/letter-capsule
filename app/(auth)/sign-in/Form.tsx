@@ -6,7 +6,10 @@ import { useRef } from "react"
 
 import { to } from "../../../utilities/helpers"
 
-const handleSubmit = async (e: React.SyntheticEvent, router: AppRouterInstance) => {
+const handleSubmit = async (
+  e: React.SyntheticEvent,
+  router: AppRouterInstance
+) => {
   e.preventDefault()
 
   const target = e.target as typeof e.target & {
@@ -19,7 +22,7 @@ const handleSubmit = async (e: React.SyntheticEvent, router: AppRouterInstance) 
   if (!(email.value && password.value)) {
     return console.log("Fill every field")
   }
-  
+
   const [errors, res] = await to(
     fetch("/api/auth/sign-in", {
       method: "POST",
@@ -31,16 +34,16 @@ const handleSubmit = async (e: React.SyntheticEvent, router: AppRouterInstance) 
   )
 
   if (errors) {
-    return console.log(errors)
+    return console.log({ errors })
   }
-  
+
   const response = await res
 
   if (response.redirected) {
     return router.push(response.url)
   }
 
-  console.log({message: "Something went wrong", response})
+  console.log({ message: "Something went wrong", response })
 }
 
 const Form = () => {

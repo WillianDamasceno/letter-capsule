@@ -2,12 +2,13 @@
 
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context"
 import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 import { isSignedIn } from "../../utilities/auth"
 
 import { to } from "../../utilities/helpers"
 
 const handleSignOut = async (router: AppRouterInstance) => {
-  const [error, response] = await to(fetch("/api/auth/sign-out", { method: "POST" }))
+  const [error, response] = await to(fetch("/api/auth/sign-out"))
 
   if (error) {
     return console.log({ error })
@@ -21,9 +22,9 @@ const handleSignOut = async (router: AppRouterInstance) => {
 export const SignOutButton = () => {
   const router = useRouter()
 
-  isSignedIn().then(
-    ({ response }) => response.data[0]?.isSignedIn || router.push("/sign-in")
-  )
+  useEffect(() => {
+    isSignedIn((status) => status || router.push("/sign-in"))
+  }, [])
 
   return (
     <button
