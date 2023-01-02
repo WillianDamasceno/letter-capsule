@@ -3,8 +3,9 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
-import { isSignedIn } from "../../utilities/auth"
+import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline"
 
+import { isSignedIn } from "../../utilities/auth"
 import { to } from "../../utilities/helpers"
 
 const handleSignOut = async (router: AppRouterInstance) => {
@@ -28,11 +29,12 @@ export const SignOutButton = () => {
 
   return (
     <button
-      className="bg-rose-600 py-2 px-8 transition-colors hover:bg-rose-800"
+      className="side-menu-button"
       onClick={() => {
         handleSignOut(router)
       }}
     >
+      <ArrowRightOnRectangleIcon className="h-[1.25em]" />
       Sign Out
     </button>
   )
