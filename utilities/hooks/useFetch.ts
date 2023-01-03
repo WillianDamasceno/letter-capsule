@@ -25,16 +25,17 @@ export const useFetch = (
 
   const [data, setData] = useState<any>(null)
   const [response, setResponse] = useState<any>(null)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<any>(null)
 
-  const [loading, setLoading] = useState(false)
-  const [finished, setFinished] = useState(false)
+  const [loading, setLoading] = useState<any>(false)
+  const [finished, setFinished] = useState<any>(false)
 
-  const refetch = async () => {
+  const refetch = () => {
     setLoading(true)
     setFinished(false)
+    setError(null)
 
-    await fetch(url, requestInit)
+    fetch(url, requestInit)
       .then((response) => {
         setResponse(response)
         return response
@@ -53,9 +54,10 @@ export const useFetch = (
         return setData(callbackResult)
       })
       .catch((error) => setError(error))
-
-    setLoading(false)
-    setFinished(true)
+      .finally(() => {
+        setLoading(false)
+        setFinished(true)
+      })
   }
 
   useEffect(() => {
@@ -63,7 +65,9 @@ export const useFetch = (
 
     return () => {
       setData(null)
+      setResponse(null)
       setLoading(false)
+      setFinished(false)
       setError(null)
     }
   }, [url])

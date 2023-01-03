@@ -59,7 +59,7 @@ export const Menu = () => {
 
           <section className="flex h-full flex-col gap-2">
             <Link
-              href="/letters"
+              href="/dashboard/letters"
               className="side-menu-button"
               title="Letters"
             >
@@ -68,7 +68,7 @@ export const Menu = () => {
             </Link>
 
             <Link
-              href="/letters"
+              href="/dashboard/sent"
               className="side-menu-button"
               title="Sent"
             >
@@ -77,7 +77,7 @@ export const Menu = () => {
             </Link>
 
             <Link
-              href="/letters"
+              href="/dashboard/trash"
               className="side-menu-button"
               title="Trash"
             >
@@ -88,13 +88,13 @@ export const Menu = () => {
             <hr className="border-gray-500" />
 
             <div className="flex flex-col gap-2 overflow-scroll">
-              <Link href="/letters" className="side-menu-button" title="Folder">
+              <Link href="#" className="side-menu-button" title="Folder">
                 <FolderIcon className="h-[1.25em]" />
                 <span className="leading-7 line-clamp-1">Folder</span>
               </Link>
 
               <Link
-                href="/letters"
+                href="#"
                 className="side-menu-button bg-white bg-opacity-5"
                 title="Opened Folder"
               >

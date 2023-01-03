@@ -2,7 +2,9 @@
 
 import { Letter } from "@prisma/client"
 import Link from "next/link"
+
 import { useFetch } from "../../../utilities/hooks/useFetch"
+import { LoadingIcon } from "../../../components/Icons"
 
 type LetterItemProps = {
   title: string
@@ -21,6 +23,25 @@ const LetterItem = ({ title, href = "#", className = "" }: LetterItemProps) => {
   )
 }
 
+const LoadingFallback = () => {
+  return (
+    <div className="mx-auto flex max-w-2xl justify-center rounded-lg bg-gray-600 bg-opacity-25 p-4 odd:bg-gray-700 hover:underline">
+      <LoadingIcon className="h-6 animate-spin" />
+    </div>
+  )
+}
+
+const ErrorFallback = ({ refreshAction }: { refreshAction: () => any }) => {
+  return (
+    <button
+      className="mx-auto flex w-full max-w-2xl justify-center rounded-lg bg-gray-600 bg-opacity-25 p-4 odd:bg-gray-700 hover:underline"
+      onClick={refreshAction}
+    >
+      Error trying to fetch the letters, click to refresh
+    </button>
+  )
+}
+
 export const LetterList = () => {
   const { data, error, finished, refetch } = useFetch(
     "/api/dashboard/get-letters",
@@ -28,8 +49,9 @@ export const LetterList = () => {
     { callback: (response) => response.json() }
   )
 
-  if (error) return null
-  if (!finished) return null
+  if (!finished) return <LoadingFallback />
+  
+  if (error) return <ErrorFallback refreshAction={refetch} />
 
   const letters = data.response.data as Letter[]
 
