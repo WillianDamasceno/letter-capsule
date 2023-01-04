@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client"
+import { prisma } from "../../../../prisma/config"
 
 const page = async ({ params }: any) => {
-  const prisma = new PrismaClient()
   const urlParams = new URLSearchParams(`email=${params.identifier}`)
   const userEmail = urlParams.get("email") || undefined
 

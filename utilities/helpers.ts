@@ -10,3 +10,9 @@ export const toJson = async (promise: Promise<any>) => {
 
   return [error, data, response]
 }
+
+export const formatDateToInputValue = (date: Date | string) => {
+  const datePieces = Intl.DateTimeFormat("en-us").format(new Date(date)).split("/")
+  datePieces.unshift(String(datePieces.pop()))
+  return datePieces.join("-")
+}

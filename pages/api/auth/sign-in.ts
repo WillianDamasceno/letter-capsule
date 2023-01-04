@@ -1,10 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import { PrismaClient } from "@prisma/client"
 
 import { createSignInCookie } from "../../../utilities/auth"
 import { apiActions, ApiResponse } from "../../../utilities/api"
-
-const prisma = new PrismaClient()
+import { prisma } from "../../../prisma/config"
 
 export default async (
   req: NextApiRequest,

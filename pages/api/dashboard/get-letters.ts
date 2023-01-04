@@ -1,11 +1,9 @@
-import { PrismaClient } from "@prisma/client"
 import { NextApiResponse } from "next"
 import { NextApiRequest } from "next"
+import { prisma } from "../../../prisma/config"
 
 import { apiActions } from "../../../utilities/api"
-import { getSignInCookieInfo } from "../../../utilities/auth"
-
-const prisma = new PrismaClient()
+import { decodeJwt } from "../../../utilities/auth"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { errors, setError, setSuccess } = apiActions(res)
@@ -15,7 +13,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return setError({ code: 405, errors })
   }
 
-  const signInInfo = getSignInCookieInfo(req)
+  const signInToken = req.cookies[String(process.env.SIGN_IN_TOKEN_HEADER_KEY)]
+  const signInInfo = decodeJwt(signInToken)
 
   const letters = await prisma.letter.findMany({
     where: {

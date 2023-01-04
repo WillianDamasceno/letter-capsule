@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import { PrismaClient } from "@prisma/client"
+import { prisma } from "../../../prisma/config"
 import { apiActions, ApiResponse } from "../../../utilities/api"
-
-const prisma = new PrismaClient()
 
 export default async (
   req: NextApiRequest,

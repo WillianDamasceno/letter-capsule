@@ -12,7 +12,7 @@ type LetterItemProps = {
   className?: string
 }
 
-const LetterItem = ({ title, href = "#", className = "" }: LetterItemProps) => {
+const LetterItem = ({ title, href, className = "" }: LetterItemProps) => {
   return (
     <Link
       href={href || "#"}
@@ -25,7 +25,7 @@ const LetterItem = ({ title, href = "#", className = "" }: LetterItemProps) => {
 
 const LoadingFallback = () => {
   return (
-    <div className="mx-auto flex max-w-2xl justify-center rounded-lg bg-gray-600 bg-opacity-25 p-4 odd:bg-gray-700 hover:underline">
+    <div className="mx-auto flex max-w-2xl justify-center rounded bg-gray-600 bg-opacity-25 p-4 odd:bg-gray-700 hover:underline">
       <LoadingIcon className="h-6 animate-spin" />
     </div>
   )
@@ -34,7 +34,7 @@ const LoadingFallback = () => {
 const ErrorFallback = ({ refreshAction }: { refreshAction: () => any }) => {
   return (
     <button
-      className="mx-auto flex w-full max-w-2xl justify-center rounded-lg bg-gray-600 bg-opacity-25 p-4 odd:bg-gray-700 hover:underline"
+      className="mx-auto flex w-full max-w-2xl justify-center rounded bg-gray-600 bg-opacity-25 p-4 odd:bg-gray-700 hover:underline"
       onClick={refreshAction}
     >
       Error trying to fetch the letters, click to refresh
@@ -50,16 +50,20 @@ export const LetterList = () => {
   )
 
   if (!finished) return <LoadingFallback />
-  
+
   if (error) return <ErrorFallback refreshAction={refetch} />
 
   const letters = data.response.data as Letter[]
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col overflow-hidden rounded-lg border-2 border-gray-700">
+    <div className="mx-auto flex max-w-2xl flex-col overflow-hidden rounded border-2 border-gray-700">
       {letters.length ? (
         letters.map((letter) => (
-          <LetterItem key={letter.id} title={letter.title} />
+          <LetterItem
+            key={letter.id}
+            title={letter.title}
+            href={`/dashboard/viewer/${letter.id}`}
+          />
         ))
       ) : (
         <p className="text-center">No letter was found</p>

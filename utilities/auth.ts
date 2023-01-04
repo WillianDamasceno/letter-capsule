@@ -52,18 +52,12 @@ export const createSignInCookie = (user: User) => {
   return signInCookie
 }
 
-export const getSignInCookieInfo = (req: NextApiRequest) => {
-  const signInToken = req.cookies[String(process.env.SIGN_IN_TOKEN_HEADER_KEY)]
-
-  if (typeof signInToken !== "string") {
-    return null
-  }
+export const decodeJwt = (signInToken: string | undefined) => {
+  if (typeof signInToken !== "string") return
 
   const decodedInfo = jwt.decode(signInToken, { complete: true, json: true })
 
-  if (!decodedInfo) {
-    return
-  }
+  if (!decodedInfo) return
 
   const info = Object.assign(decodedInfo, {
     payload: decodedInfo.payload as UserSignInCookieInfo,
