@@ -1,4 +1,9 @@
-export const LoadingIcon = ({ className }: { className: string }) => {
+type IconProps = {
+  fill?: string
+  className?: string
+}
+
+export const LoadingIcon = ({ className }: IconProps) => {
   return (
     <svg fill="none" viewBox="0 0 24 24" className={className}>
       <rect fill="white" />
@@ -17,6 +22,28 @@ export const LoadingIcon = ({ className }: { className: string }) => {
         stroke="currentColor"
         strokeLinecap="round"
       />
+    </svg>
+  )
+}
+
+export const BlockquoteIcon = ({ className }: IconProps) => {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+    >
+      <path d="M0 0h24v24H0z" fill="none" stroke="none" />
+      <path d="M6 15h15" />
+      <path d="M21 19h-15" />
+      <path d="M15 11h6" />
+      <path d="M21 7h-6" />
+      <path d="M9 9h1a1 1 0 1 1 -1 1v-2.5a2 2 0 0 1 2 -2" />
+      <path d="M3 9h1a1 1 0 1 1 -1 1v-2.5a2 2 0 0 1 2 -2" />
     </svg>
   )
 }

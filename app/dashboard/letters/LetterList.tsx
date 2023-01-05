@@ -2,30 +2,47 @@
 
 import { Letter } from "@prisma/client"
 import Link from "next/link"
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
 
-import { useFetch } from "../../../utilities/hooks/useFetch"
+import { useFetch } from "../../../utilities/hooks"
 import { LoadingIcon } from "../../../components/Icons"
 
 type LetterItemProps = {
-  title: string
-  href?: string
-  className?: string
+  letter: Letter
 }
 
-const LetterItem = ({ title, href, className = "" }: LetterItemProps) => {
+const LetterItem = ({ letter }: LetterItemProps) => {
   return (
-    <Link
-      href={href || "#"}
-      className={`bg-gray-600 bg-opacity-25 p-4 odd:bg-gray-700 hover:underline ${className}`}
-    >
-      {title}
-    </Link>
+    <div className="flex justify-between bg-gray-600 bg-opacity-25 odd:bg-gray-700 [&:hover_.actions]:opacity-100">
+      <Link
+        className="flex w-full items-center pl-4 hover:underline"
+        href={`/dashboard/viewer/${letter.id} `}
+      >
+        {letter.title}
+      </Link>
+
+      <div className="actions flex opacity-0 transition">
+        <Link
+          title="Edit letter"
+          className="p-3 text-center hover:bg-white hover:bg-opacity-5"
+          href={`/dashboard/composer/${letter.id}`}
+        >
+          <PencilSquareIcon className="w-8 p-1" />
+        </Link>
+        <button
+          title="Delete Letter"
+          className="p-3 text-center hover:bg-white hover:bg-opacity-5"
+        >
+          <TrashIcon className="w-8 p-1" />
+        </button>
+      </div>
+    </div>
   )
 }
 
 const LoadingFallback = () => {
   return (
-    <div className="mx-auto flex max-w-2xl justify-center rounded bg-gray-600 bg-opacity-25 p-4 odd:bg-gray-700 hover:underline">
+    <div className="flex justify-center rounded bg-gray-600 bg-opacity-25 p-4 odd:bg-gray-700 hover:underline">
       <LoadingIcon className="h-6 animate-spin" />
     </div>
   )
@@ -34,7 +51,7 @@ const LoadingFallback = () => {
 const ErrorFallback = ({ refreshAction }: { refreshAction: () => any }) => {
   return (
     <button
-      className="mx-auto flex w-full max-w-2xl justify-center rounded bg-gray-600 bg-opacity-25 p-4 odd:bg-gray-700 hover:underline"
+      className="flex w-full justify-center rounded bg-gray-600 bg-opacity-25 p-4 odd:bg-gray-700 hover:underline"
       onClick={refreshAction}
     >
       Error trying to fetch the letters, click to refresh
@@ -56,18 +73,12 @@ export const LetterList = () => {
   const letters = data.response.data as Letter[]
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col overflow-hidden rounded border-2 border-gray-700">
+    <>
       {letters.length ? (
-        letters.map((letter) => (
-          <LetterItem
-            key={letter.id}
-            title={letter.title}
-            href={`/dashboard/viewer/${letter.id}`}
-          />
-        ))
+        letters.map((letter) => <LetterItem key={letter.id} letter={letter} />)
       ) : (
         <p className="text-center">No letter was found</p>
       )}
-    </div>
+    </>
   )
 }

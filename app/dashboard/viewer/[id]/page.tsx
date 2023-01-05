@@ -49,7 +49,7 @@ const Page = async ({ params }: PageProps) => {
   const nextLetterId = ids[currentLetterIndex + 1]
 
   return (
-    <section className="p-8 text-gray-300">
+    <section className="p-8 text-gray-300 max-w-5xl mx-auto">
       <header className="mb-2 flex justify-between rounded bg-gray-700">
         <div className="flex">
           <Link
