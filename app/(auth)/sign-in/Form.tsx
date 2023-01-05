@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { useRef } from "react"
 
 import { to } from "../../../utilities/helpers"
+import { useAuth } from "../../../utilities/hooks"
 
 const handleSubmit = async (
   e: React.SyntheticEvent,
@@ -50,6 +51,13 @@ const handleSubmit = async (
 const Form = () => {
   const router = useRouter()
   const formRef = useRef(null)
+
+  const auth = useAuth()
+
+  if (auth.isSignedIn) {
+    router.push("/dashboard/letters")
+    return <></>
+  }
 
   return (
     <form

@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useRef } from "react"
 import { to, toJson } from "../../../utilities/helpers"
+import { useAuth } from "../../../utilities/hooks"
 
 const sendConfirmationEmail = async (name: string, email: string) => {
   return await toJson(
@@ -60,6 +61,12 @@ const handleSubmit = async (
 const Form = () => {
   const router = useRouter()
   const formRef = useRef(null)
+
+  const auth = useAuth()
+
+  if (auth.isSignedIn) {
+    return router.push("/dashboard/letters")
+  }
 
   return (
     <form

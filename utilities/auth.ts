@@ -1,4 +1,3 @@
-import { NextApiRequest } from "next"
 import { User } from "@prisma/client"
 import jwt from "jsonwebtoken"
 import { serialize } from "cookie"
