@@ -51,7 +51,7 @@ export const Menu = () => {
           <section className="py-2">
             <Link
               className="mx-auto grid w-36 max-w-full place-items-center rounded-xl border-2 border-gray-300 py-4 px-8 font-semibold hover:bg-white hover:bg-opacity-5"
-              href="/dashboard/composer"
+              href="/dashboard/composer/new"
             >
               Compose
             </Link>

@@ -1,3 +1,4 @@
+import { Letter } from "@prisma/client"
 import { cookies } from "next/headers"
 
 import { prisma } from "../../../../prisma/config"
@@ -19,9 +20,13 @@ const Page = async ({ params }: PageProps) => {
   const signInInfo = decodeJwt(String(signInToken))
   const authorId = signInInfo?.payload?.userId
 
-  const letter = await prisma.letter.findFirst({
-    where: { id: Number(params?.id), authorId },
-  })
+  let letter: Letter | null = null
+
+  if (!params?.id.includes("new")) {
+    letter = await prisma.letter.findFirst({
+      where: { id: Number(params?.id), authorId },
+    })
+  }
 
   return (
     <section className="grid gap-4 p-8 text-gray-300 max-w-5xl mx-auto">

@@ -22,9 +22,7 @@ export default async (
   }
 
   const user = await prisma.user.findUnique({
-    where: {
-      email,
-    },
+    where: { email },
   })
 
   if (!user || !user.verified || user.password !== password) {
