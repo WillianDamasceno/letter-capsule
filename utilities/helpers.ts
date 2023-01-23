@@ -8,7 +8,7 @@ export const toJson = async (promise: Promise<any>) => {
   const [error, response] = await to(promise)
 
   const data =
-    !error && response.headers["content-type"] === "application/json"
+    !error && response.headers.get("content-type").includes("application/json")
       ? await response?.json()
       : null
 
