@@ -11,7 +11,7 @@ export const useAuth = (dependencies = []) => {
       if (error) {
         return console.error({ isSignInError: error })
       }
-    
+
       const status = Boolean(data?.response?.data?.isSignedIn)
 
       setIsSignedIn(status)
@@ -22,5 +22,5 @@ export const useAuth = (dependencies = []) => {
     return () => setIsSignedIn(false)
   }, dependencies)
 
-  return {isSignedIn}
+  return { isSignedIn }
 }
