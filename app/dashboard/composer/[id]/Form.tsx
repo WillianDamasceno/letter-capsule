@@ -1,45 +1,79 @@
 "use client"
 
 import { Letter } from "@prisma/client"
-import { FormEvent, useState } from "react"
-import { useRouter } from "next/navigation"
+import { FormEvent, useRef, useState } from "react"
+import { usePathname, useRouter } from "next/navigation"
 
-import { formatDateToInputValue } from "../../../../utilities/helpers"
+import { formatDateToInputValue, toJson } from "../../../../utilities/helpers"
 import { RichText } from "../../../../components"
 
-export const Form = ({ letter }: { letter: Letter | null }) => {
+type FormProps = {
+  letter: Letter | null
+}
+
+export const Form = ({ letter }: FormProps) => {
   const router = useRouter()
+  const pathname = usePathname()
 
-  const [title, setTitle] = useState(String(letter?.title))
-  const [date, setDate] = useState(String(letter?.deliveryDate))
-  const [content, setContent] = useState(String(letter?.content))
+  const [title, setTitle] = useState(String(letter?.title || ""))
+  const [date, setDate] = useState(String(letter?.deliveryDate || new Date()))
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const richTextRef = useRef<HTMLDivElement>(null)
+
+  const handleSubmit = async (
+    e: FormEvent<HTMLFormElement>,
+    pathname: string | null
+  ) => {
     e.preventDefault()
 
-    console.log("This submit handler was not implemented yet")
+    const requestMethod = pathname?.includes("new") ? "POST" : "PUT"
+
+    const [error, data, response] = await toJson(
+      fetch(`/api/dashboard/set-letter`, {
+        method: requestMethod,
+        body: JSON.stringify({
+          id: letter?.id,
+          title,
+          date,
+          content: richTextRef?.current?.innerHTML || "",
+        }),
+      })
+    )
+
+    if (data.success) {
+      router.push("/dashboard/letters")
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="color-schema-dark grid gap-4">
+    <form
+      onSubmit={(e) => handleSubmit(e, pathname)}
+      className="color-schema-dark grid gap-4"
+    >
       <div className="flex justify-between">
         <button
+          type="button"
           className="rounded bg-gray-700 px-8 py-3 hover:bg-white hover:bg-opacity-5"
           onClick={() => router.back()}
         >
           Cancel
         </button>
-        <button className="rounded bg-gray-700 px-8 py-3 hover:bg-white hover:bg-opacity-5">
+        <button
+          type="submit"
+          className="rounded bg-gray-700 px-8 py-3 hover:bg-white hover:bg-opacity-5"
+        >
           Save
         </button>
       </div>
+
       <div className="grid gap-4 sm:flex">
         <div className="w-full">
           <input
             className="block w-full rounded bg-gray-700 p-3"
             type="text"
-            defaultValue={letter?.title}
+            defaultValue={title}
             onChange={(e) => setTitle(e.target.value)}
+            placeholder="Title"
           />
         </div>
         <div>
@@ -47,13 +81,14 @@ export const Form = ({ letter }: { letter: Letter | null }) => {
             title="Delivery date"
             className="block w-full cursor-pointer rounded bg-gray-700 p-3 text-center sm:w-auto"
             type="date"
-            defaultValue={formatDateToInputValue(String(letter?.deliveryDate))}
+            defaultValue={formatDateToInputValue(date)}
             onChange={(e) => setDate(e.target.value)}
+            min={formatDateToInputValue(String(new Date()))}
           />
         </div>
       </div>
 
-      <RichText  content={content} setContent={setContent} />
+      <RichText ref={richTextRef} initialContent={letter?.content} />
     </form>
   )
 }
