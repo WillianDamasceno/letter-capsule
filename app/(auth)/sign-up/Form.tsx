@@ -65,7 +65,8 @@ const Form = () => {
   const auth = useAuth()
 
   if (auth.isSignedIn) {
-    return router.push("/dashboard/letters")
+    router.push("/dashboard/letters")
+    return <></>
   }
 
   return (
