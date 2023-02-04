@@ -1,20 +1,46 @@
 "use client"
 
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { useState } from "react"
 import {
   DocumentTextIcon,
   MoonIcon,
-  FolderIcon,
-  FolderOpenIcon,
   TrashIcon,
   EnvelopeIcon,
-  PaperAirplaneIcon
+  PaperAirplaneIcon,
+  InformationCircleIcon,
 } from "@heroicons/react/24/outline"
 
 import { SignOutButton } from "./SignOutButton"
 
-export const Menu = () => {
+function MenuLink({
+  href,
+  children,
+  active = false,
+  title = "",
+}: {
+  href: string
+  children?: React.ReactNode
+  active?: boolean
+  title: string
+}) {
+  return (
+    <Link
+      href={href}
+      className={`${
+        active ? "bg-white bg-opacity-5" : ""
+      } flex w-full items-center gap-3 rounded p-2 transition-colors hover:bg-white hover:bg-opacity-10`}
+      title={title}
+    >
+      {children}
+      <span className="leading-7 line-clamp-1">{title}</span>
+    </Link>
+  )
+}
+
+export function Menu() {
+  const pathname = usePathname()
   const [isMenuVisible, setMenuVisibility] = useState(false)
 
   const closeMenuByBackdrop = (e: React.MouseEvent) => {
@@ -58,64 +84,53 @@ export const Menu = () => {
           </section>
 
           <section className="flex h-full flex-col gap-2">
-            <Link
+            <MenuLink
+              active={pathname?.includes("letters")}
               href="/dashboard/letters"
-              className="side-menu-button"
               title="Letters"
             >
               <EnvelopeIcon className="h-[1.25em]" />
-              <span className="leading-7 line-clamp-1">Letters</span>
-            </Link>
+            </MenuLink>
 
-            <Link
+            <MenuLink
+              active={pathname?.includes("sent")}
               href="/dashboard/sent"
-              className="side-menu-button"
               title="Sent"
             >
               <PaperAirplaneIcon className="h-[1.25em]" />
-              <span className="leading-7 line-clamp-1">Sent</span>
-            </Link>
+            </MenuLink>
 
-            <Link
+            <MenuLink
+              active={pathname?.includes("trash")}
               href="/dashboard/trash"
-              className="side-menu-button"
               title="Trash"
             >
               <TrashIcon className="h-[1.25em]" />
-              <span className="leading-7 line-clamp-1">Trash</span>
-            </Link>
+            </MenuLink>
 
             <hr className="border-gray-500" />
-
-            <div className="flex flex-col gap-2 overflow-scroll">
-              <Link href="#" className="side-menu-button" title="Folder">
-                <FolderIcon className="h-[1.25em]" />
-                <span className="leading-7 line-clamp-1">Folder</span>
-              </Link>
-
-              <Link
-                href="#"
-                className="side-menu-button bg-white bg-opacity-5"
-                title="Opened Folder"
-              >
-                <FolderOpenIcon className="h-[1.25em]" />
-                <span className="leading-7 line-clamp-1">Opened Folder</span>
-              </Link>
-            </div>
           </section>
 
           <hr className="border-gray-500" />
 
           <section className="flex flex-col gap-2">
-            <button className="side-menu-button">
+            <button className="flex w-full items-center gap-3 rounded p-2 transition-colors hover:bg-white hover:bg-opacity-10">
               <MoonIcon className="h-[1.25em]" />
               Dark Mode
             </button>
 
-            <Link href="/about" className="side-menu-button">
+            <button className="flex w-full items-center gap-3 rounded p-2 transition-colors hover:bg-white hover:bg-opacity-10">
+              <InformationCircleIcon className="h-[1.25em]" />
+              Help
+            </button>
+
+            <MenuLink
+              active={pathname?.includes("about")}
+              href="/dashboard/about"
+              title="About"
+            >
               <DocumentTextIcon className="h-[1.25em]" />
-              About
-            </Link>
+            </MenuLink>
 
             <SignOutButton />
           </section>

@@ -14,7 +14,7 @@ import {
 import { BlockquoteIcon } from "../components/Icons"
 
 function onInput(e: any) {
-  console.warn("This evento was not implemented yet")
+  console.warn("This event was not implemented yet")
 }
 
 function initRichText(id: string) {

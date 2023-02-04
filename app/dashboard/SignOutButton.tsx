@@ -29,7 +29,7 @@ export const SignOutButton = () => {
 
   return (
     <button
-      className="side-menu-button"
+      className="flex w-full items-center gap-3 rounded p-2 transition-colors hover:bg-white hover:bg-opacity-10"
       onClick={() => {
         handleSignOut(router)
       }}

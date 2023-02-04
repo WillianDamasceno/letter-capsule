@@ -77,7 +77,7 @@ export const LetterList = () => {
       {letters.length ? (
         letters.map((letter) => <LetterItem key={letter.id} letter={letter} />)
       ) : (
-        <p className="text-center">No letter was found</p>
+        <span className="p-4 bg-gray-700 text-center">No letter was found</span>
       )}
     </>
   )

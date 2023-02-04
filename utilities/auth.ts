@@ -22,7 +22,8 @@ type UserSignInCookieInfo = {
 }
 
 export const createSignInCookie = (user: User) => {
-  const maxAge = 60 * 60
+  const maxAge = Number(process.env.AUTH_MAX_AGE_SECONDS)
+
   const cookieInfo: UserSignInCookieInfo = {
     userId: user.id,
     userEmail: user.email,
@@ -51,7 +52,7 @@ export const createSignInCookie = (user: User) => {
   return signInCookie
 }
 
-export const decodeJwt = (signInToken: string | undefined) => {
+export const decodeJwt = (signInToken?: string) => {
   if (typeof signInToken !== "string") return
 
   const decodedInfo = jwt.decode(signInToken, { complete: true, json: true })
