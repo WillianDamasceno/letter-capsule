@@ -4,6 +4,9 @@ import { Letter } from "@prisma/client"
 import { FormEvent, useRef, useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
 
+import type ReactQuill from "react-quill"
+import "react-quill/dist/quill.snow.css"
+
 import { formatDateToInputValue, toJson } from "../../../../utilities/helpers"
 import { RichText } from "../../../../components"
 
@@ -18,7 +21,7 @@ export const Form = ({ letter }: FormProps) => {
   const [title, setTitle] = useState(String(letter?.title || ""))
   const [date, setDate] = useState(String(letter?.deliveryDate || new Date()))
 
-  const richTextRef = useRef<HTMLDivElement>(null)
+  const richTextRef = useRef<ReactQuill>(null)
 
   const handleSubmit = async (
     e: FormEvent<HTMLFormElement>,
@@ -35,7 +38,7 @@ export const Form = ({ letter }: FormProps) => {
           id: letter?.id,
           title,
           date,
-          content: richTextRef?.current?.innerHTML || "",
+          content: richTextRef?.current?.value || "",
         }),
       })
     )
@@ -65,7 +68,6 @@ export const Form = ({ letter }: FormProps) => {
           Save
         </button>
       </div>
-
       <div className="grid gap-4 sm:flex">
         <div className="w-full">
           <input
@@ -88,7 +90,7 @@ export const Form = ({ letter }: FormProps) => {
         </div>
       </div>
 
-      <RichText ref={richTextRef} initialContent={letter?.content} />
+      <RichText ref={richTextRef} defaultValue={letter?.content} />
     </form>
   )
 }
