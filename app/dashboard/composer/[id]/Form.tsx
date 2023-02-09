@@ -9,6 +9,7 @@ import "react-quill/dist/quill.snow.css"
 
 import { formatDateToInputValue, toJson } from "../../../../utilities/helpers"
 import { RichText } from "../../../../components"
+import { LoadingIcon } from "../../../../components/Icons"
 
 type FormProps = {
   letter: Letter | null
@@ -21,6 +22,8 @@ export const Form = ({ letter }: FormProps) => {
   const [title, setTitle] = useState(String(letter?.title || ""))
   const [date, setDate] = useState(String(letter?.deliveryDate || new Date()))
 
+  const [isSaving, setIsSaving] = useState(false)
+
   const richTextRef = useRef<ReactQuill>(null)
 
   const handleSubmit = async (
@@ -28,6 +31,8 @@ export const Form = ({ letter }: FormProps) => {
     pathname: string | null
   ) => {
     e.preventDefault()
+
+    setIsSaving(true)
 
     const requestMethod = pathname?.includes("new") ? "POST" : "PUT"
 
@@ -43,9 +48,11 @@ export const Form = ({ letter }: FormProps) => {
       })
     )
 
-    if (data.success) {
+    if (response?.ok && data?.success) {
       router.push("/dashboard/letters")
     }
+
+    setIsSaving(false)
   }
 
   return (
@@ -63,9 +70,13 @@ export const Form = ({ letter }: FormProps) => {
         </button>
         <button
           type="submit"
-          className="rounded bg-gray-700 px-8 py-3 hover:bg-white hover:bg-opacity-5"
+          className="w-24 rounded bg-gray-700 py-3 text-center hover:bg-white hover:bg-opacity-5"
         >
-          Save
+          {isSaving ? (
+            <LoadingIcon className="mx-auto h-6 animate-spin" />
+          ) : (
+            "Save"
+          )}
         </button>
       </div>
       <div className="grid gap-4 sm:flex">

@@ -3,10 +3,10 @@ type IconProps = {
   className?: string
 }
 
-export const LoadingIcon = ({ className }: IconProps) => {
+export const LoadingIcon = ({ className, fill = "currentColor" }: IconProps) => {
   return (
     <svg fill="none" viewBox="0 0 24 24" className={className}>
-      <rect fill="white" />
+      <rect fill={fill} />
       <path
         d="M12 2V7.71429M12 16.2857V22"
         stroke="currentColor"
