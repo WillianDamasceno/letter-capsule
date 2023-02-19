@@ -9,12 +9,17 @@
 
 # Database
 
-*Reset the DB and apply every migration*
+*Apply every migration to the DB*
 ```
-npx prisma migrate reset
+npx prisma migrate dev
 ```
 
-*Execute a new migration*
+*Apply the last changes to the database without effecting the migrations*
+```
+npx prisma db push
+```
+
+*Execute a new migration with all the changes made*
 ```
 npx prisma migrate dev --name init
 ```
