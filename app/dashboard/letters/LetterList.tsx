@@ -2,9 +2,10 @@
 
 import { Letter } from "@prisma/client"
 import Link from "next/link"
+import React from "react"
+import useSWR from "swr"
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
 
-import { useFetch } from "../../../utilities/hooks"
 import { LoadingIcon } from "../../../components/Icons"
 
 type LetterItemProps = {
@@ -59,26 +60,29 @@ const ErrorFallback = ({ refreshAction }: { refreshAction: () => any }) => {
   )
 }
 
+const fetchLetters = () =>
+  fetch("/api/dashboard/get-letters").then((r) => r.json())
+
 export const LetterList = () => {
-  const { data, error, finished, refetch } = useFetch(
-    "/api/dashboard/get-letters",
-    {},
-    { callback: (response) => response.json() }
+  const { data, error, isLoading, isValidating, mutate } = useSWR(
+    "get-letters",
+    fetchLetters,
   )
 
-  if (!finished) return <LoadingFallback />
+  const letters = data?.response?.data as Letter[]
 
-  if (error) return <ErrorFallback refreshAction={refetch} />
+  if (isLoading || isValidating) return <LoadingFallback />
 
-  const letters = data.response.data as Letter[]
+  if (error) return <ErrorFallback refreshAction={mutate} />
 
   return (
     <>
-      {letters.length ? (
-        letters.map((letter) => <LetterItem key={letter.id} letter={letter} />)
-      ) : (
-        <span className="p-4 bg-gray-700 text-center">No letter was found</span>
+      {!!letters?.length || (
+        <span className="bg-gray-700 p-4 text-center">No letter was found</span>
       )}
+      {letters?.map((letter) => (
+        <LetterItem key={letter.id} letter={letter} />
+      ))}
     </>
   )
 }

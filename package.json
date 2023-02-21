@@ -18,7 +18,8 @@
     "nodemailer": "^6.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-quill": "^2.0.0"
+    "react-quill": "^2.0.0",
+    "swr": "^2.0.3"
   },
   "devDependencies": {
     "@types/cookie": "^0.5.1",

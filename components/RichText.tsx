@@ -7,7 +7,7 @@ type RichTextProps = {
 
 export const RichText = forwardRef<ReactQuill, RichTextProps>(
   ({ defaultValue = "" }: RichTextProps, ref) => {
-    const [value, setValue] = useState("")
+    const [value, setValue] = useState(defaultValue)
 
     return (
       <ReactQuill
